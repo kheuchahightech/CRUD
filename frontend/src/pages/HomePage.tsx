@@ -14,13 +14,14 @@ const HomePage: React.FC = () => {
         <div className="container mx-auto px-4 py-20">
           <div className="max-w-3xl mx-auto text-center">
             <h1 className="text-4xl md:text-5xl font-bold mb-6 leading-tight animate-fade-in">
-              Your Personal Library,<br />
-              <span className="text-amber-300">Organized and Accessible</span>
+              Votre bibliothèque personnelle,<br />
+              <span className="text-amber-300">organisée et accessible</span>
             </h1>
             
             <p className="text-lg md:text-xl opacity-90 mb-8 leading-relaxed">
-              Easily manage your book collection with BookShelf. Keep track of all your books,
-              organize them by categories, and never forget what you've read or want to read.
+              Gérez facilement votre collection de livres avec BiblioAfrika.
+              Classez vos livres par catégories, suivez ceux que vous avez lus ou que
+              vous souhaitez lire, et ne perdez plus jamais le fil.
             </p>
             
             <div className="flex flex-col sm:flex-row justify-center gap-4">
@@ -31,7 +32,7 @@ const HomePage: React.FC = () => {
                     size="lg"
                     leftIcon={<BookOpen size={20} />}
                   >
-                    My Books
+                    Mes Livres
                   </Button>
                 </Link>
               ) : (
@@ -42,7 +43,7 @@ const HomePage: React.FC = () => {
                       size="lg"
                       leftIcon={<UserPlus size={20} />}
                     >
-                      Sign Up
+                      S'inscrire
                     </Button>
                   </Link>
                   
@@ -52,7 +53,7 @@ const HomePage: React.FC = () => {
                       size="lg"
                       className="bg-white/10 hover:bg-white/20 text-white"
                     >
-                      Log In
+                      Se connecter
                     </Button>
                   </Link>
                 </>
@@ -68,7 +69,7 @@ const HomePage: React.FC = () => {
       <section className="py-20 bg-white">
         <div className="container mx-auto px-4">
           <h2 className="text-3xl font-bold text-center text-gray-900 mb-12">
-            Everything You Need to Manage Your Books
+            Tout ce dont vous avez besoin pour gérer vos livres
           </h2>
           
           <div className="grid md:grid-cols-3 gap-10">
@@ -79,11 +80,13 @@ const HomePage: React.FC = () => {
               </div>
               
               <h3 className="text-xl font-semibold text-gray-900 mb-2">
-                Book Collection
+                Votre Collection de Livres
               </h3>
               
               <p className="text-gray-600">
-                Add all your books to your personal collection. Keep track of what you've read, what you own, and what you'd like to read next.
+                Ajoutez tous vos livres à votre collection personnelle. 
+                Suivez ce que vous avez lu, ce que vous possédez 
+                et ce que vous souhaitez lire ensuite.
               </p>
             </div>
             
@@ -94,11 +97,13 @@ const HomePage: React.FC = () => {
               </div>
               
               <h3 className="text-xl font-semibold text-gray-900 mb-2">
-                Organize &amp; Categorize
+              Organisez &amp; Classez
               </h3>
               
               <p className="text-gray-600">
-                Group books by categories, authors, and publication year. Find exactly what you're looking for with powerful search and filters.
+                Groupez vos livres par catégories, 
+                auteurs et année de publication. Trouvez exactement ce que vous cherchez 
+                grâce à une recherche et des filtres puissants.
               </p>
             </div>
             
@@ -109,11 +114,12 @@ const HomePage: React.FC = () => {
               </div>
               
               <h3 className="text-xl font-semibold text-gray-900 mb-2">
-                Secure Access
+                Accès Sécurisé
               </h3>
               
               <p className="text-gray-600">
-                Your personal book collection is secure with user authentication. Access your library from any device with your account.
+                Votre collection personnelle est protégée grâce à l'authentification utilisateur. Accédez à votre bibliothèque 
+                depuis n'importe quel appareil avec votre compte.
               </p>
             </div>
           </div>
@@ -124,11 +130,12 @@ const HomePage: React.FC = () => {
       <section className="py-20 bg-gray-50">
         <div className="container mx-auto px-4 text-center">
           <h2 className="text-3xl font-bold text-gray-900 mb-4">
-            Ready to Start Managing Your Books?
+            Prêt à commencer à gérer vos livres ?
           </h2>
           
           <p className="text-lg text-gray-600 mb-8 max-w-2xl mx-auto">
-            Join BookShelf today and discover how easy it is to organize and enjoy your book collection.
+            Rejoignez  BiblioAfrika dès aujourd'hui et découvrez à quel point il est facile d'organiser 
+            et de profiter de votre collection de livres.
           </p>
           
           <div className="flex justify-center">
@@ -139,7 +146,7 @@ const HomePage: React.FC = () => {
                   size="lg"
                   leftIcon={<BookOpen size={20} />}
                 >
-                  Go to My Books
+                  Aller à Mes Livres
                 </Button>
               </Link>
             ) : (
@@ -149,7 +156,7 @@ const HomePage: React.FC = () => {
                   size="lg"
                   leftIcon={<UserPlus size={20} />}
                 >
-                  Create an Account
+                  Créer un Compte
                 </Button>
               </Link>
             )}

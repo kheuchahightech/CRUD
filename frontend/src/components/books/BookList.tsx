@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Book as BookType } from '../../types';
 import BookCard from './BookCard';
-import { Search, Filter, X, Plus, Book } from 'lucide-react';
+import { Search, X, Plus, Book } from 'lucide-react';
 import Button from '../ui/Button';
 import Input from '../ui/Input';
 import Modal from '../ui/Modal';
@@ -30,19 +30,19 @@ const BookList: React.FC = () => {
   
   const categories = getCategories();
   
-  // Handle book creation
+  // Création d'un livre
   const handleAddBook = async (bookData: Omit<BookType, 'id' | 'userId' | 'createdAt' | 'updatedAt'>) => {
     await addBook(bookData);
     setIsAddModalOpen(false);
   };
   
-  // Handle book update
+  // Modification d'un livre
   const handleEditBook = async (bookData: Partial<BookType> & { id: string }) => {
     await updateBook(bookData);
     setIsEditModalOpen(false);
   };
   
-  // Handle book deletion
+  // Suppression d'un livre
   const handleDeleteConfirm = async () => {
     if (bookToDelete) {
       await deleteBook(bookToDelete);
@@ -51,49 +51,58 @@ const BookList: React.FC = () => {
     }
   };
   
-  // View book details
+  // Affichage des détails d'un livre
   const handleViewBook = (book: BookType) => {
     setCurrentBook(book);
     setIsViewModalOpen(true);
   };
   
-  // Edit a book
+  // Modifier un livre
   const handleEditBookClick = (book: BookType) => {
     setCurrentBook(book);
     setIsEditModalOpen(true);
   };
   
-  // Delete book confirmation
+  // Confirmer la suppression d'un livre
   const handleDeleteClick = (id: string) => {
     setBookToDelete(id);
     setIsDeleteModalOpen(true);
   };
   
-  // Search handler
+  // Gestion de la recherche
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     searchBooks(e.target.value);
   };
   
-  // Category filter handler
+  // Gestion du filtre par catégorie
   const handleCategoryChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     filterByCategory(e.target.value);
   };
   
-  // Clear filters
+  // Réinitialiser les filtres
   const handleClearFilters = () => {
     searchBooks('');
     filterByCategory('');
   };
+
+  // Fonction générique pour gérer la soumission du formulaire
+  const handleFormSubmit = (bookData: Omit<BookType, 'id' | 'userId' | 'createdAt' | 'updatedAt'> | (Partial<BookType> & { id: string })) => {
+    if ('id' in bookData) {
+      return handleEditBook(bookData as Partial<BookType> & { id: string });
+    } else {
+      return handleAddBook(bookData);
+    }
+  };
   
   return (
     <div className="space-y-6">
-      {/* Search and filters */}
+      {/* Recherche et filtres */}
       <div className="bg-white rounded-lg shadow p-4 mb-6">
         <div className="flex flex-col md:flex-row md:items-center gap-4">
           <div className="flex-1">
             <Input
               type="text"
-              placeholder="Search books by title, author or description..."
+              placeholder="Rechercher des livres par titre, auteur ou description..."
               value={state.searchTerm}
               onChange={handleSearch}
               fullWidth
@@ -107,7 +116,7 @@ const BookList: React.FC = () => {
               onChange={handleCategoryChange}
               className="w-full rounded-md border border-gray-300 py-2 pl-3 pr-10 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
             >
-              <option value="">All Categories</option>
+              <option value="">Toutes les catégories</option>
               {categories.map(category => (
                 <option key={category} value={category}>{category}</option>
               ))}
@@ -121,7 +130,7 @@ const BookList: React.FC = () => {
                 onClick={handleClearFilters}
                 leftIcon={<X size={18} />}
               >
-                Clear
+                Effacer
               </Button>
             )}
             
@@ -130,13 +139,13 @@ const BookList: React.FC = () => {
               onClick={() => setIsAddModalOpen(true)}
               leftIcon={<Plus size={18} />}
             >
-              Add Book
+              Ajouter un livre
             </Button>
           </div>
         </div>
       </div>
       
-      {/* Book list */}
+      {/* Liste des livres */}
       {state.loading ? (
         <div className="flex justify-center py-12">
           <Spinner size="lg" />
@@ -146,11 +155,11 @@ const BookList: React.FC = () => {
           <div className="mx-auto w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mb-4">
             <Book size={32} className="text-gray-400" />
           </div>
-          <h3 className="text-lg font-medium text-gray-900 mb-1">No books found</h3>
+          <h3 className="text-lg font-medium text-gray-900 mb-1">Aucun livre trouvé</h3>
           <p className="text-gray-500 mb-4">
             {state.books.length === 0 
-              ? "You haven't added any books yet."
-              : "No books match your search criteria."
+              ? "Vous n'avez ajouté aucun livre pour le moment."
+              : "Aucun livre ne correspond à votre recherche."
             }
           </p>
           <Button
@@ -158,15 +167,15 @@ const BookList: React.FC = () => {
             onClick={() => setIsAddModalOpen(true)}
             leftIcon={<Plus size={18} />}
           >
-            Add Your First Book
+            Ajouter votre premier livre
           </Button>
         </div>
       ) : (
         <>
-          {/* Results summary */}
+          {/* Résumé des résultats */}
           <div className="text-sm text-gray-600 mb-4">
-            Showing {state.filteredBooks.length} {state.filteredBooks.length === 1 ? 'book' : 'books'}
-            {(state.searchTerm || state.categoryFilter) && ' matching your filters'}
+            Affichage de {state.filteredBooks.length} {state.filteredBooks.length === 1 ? 'livre' : 'livres'}
+            {(state.searchTerm || state.categoryFilter) && ' correspondant à vos filtres'}
           </div>
           
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
@@ -183,40 +192,40 @@ const BookList: React.FC = () => {
         </>
       )}
       
-      {/* Add book modal */}
+      {/* Modal d'ajout de livre */}
       <Modal
         isOpen={isAddModalOpen}
         onClose={() => setIsAddModalOpen(false)}
-        title="Add New Book"
+        title="Ajouter un nouveau livre"
         size="lg"
       >
         <BookForm
-          onSubmit={handleAddBook}
+          onSubmit={handleFormSubmit}
           onCancel={() => setIsAddModalOpen(false)}
           loading={state.loading}
         />
       </Modal>
       
-      {/* Edit book modal */}
+      {/* Modal de modification de livre */}
       <Modal
         isOpen={isEditModalOpen}
         onClose={() => setIsEditModalOpen(false)}
-        title="Edit Book"
+        title="Modifier un livre"
         size="lg"
       >
         <BookForm
           book={state.currentBook}
-          onSubmit={handleEditBook}
+          onSubmit={handleFormSubmit}
           onCancel={() => setIsEditModalOpen(false)}
           loading={state.loading}
         />
       </Modal>
       
-      {/* View book details modal */}
+      {/* Modal de détails du livre */}
       <Modal
         isOpen={isViewModalOpen}
         onClose={() => setIsViewModalOpen(false)}
-        title={state.currentBook?.title || 'Book Details'}
+        title={state.currentBook?.title || 'Détails du livre'}
         size="lg"
       >
         {state.currentBook && (
@@ -228,23 +237,22 @@ const BookList: React.FC = () => {
             }} 
             onDelete={() => {
               setIsViewModalOpen(false);
-              setBookToDelete(state.currentBook?.id);
-              setIsDeleteModalOpen(true);
+              handleDeleteClick(state.currentBook.id);
             }} 
           />
         )}
       </Modal>
       
-      {/* Delete confirmation modal */}
+      {/* Modal de confirmation de suppression */}
       <Modal
         isOpen={isDeleteModalOpen}
         onClose={() => setIsDeleteModalOpen(false)}
-        title="Delete Book"
+        title="Supprimer un livre"
         size="sm"
       >
         <div className="space-y-4">
           <p className="text-gray-700">
-            Are you sure you want to delete this book? This action cannot be undone.
+            Êtes-vous sûr de vouloir supprimer ce livre ? Cette action est irréversible.
           </p>
           
           <div className="flex justify-end space-x-3 pt-2">
@@ -252,7 +260,7 @@ const BookList: React.FC = () => {
               variant="ghost"
               onClick={() => setIsDeleteModalOpen(false)}
             >
-              Cancel
+              Annuler
             </Button>
             
             <Button
@@ -260,7 +268,7 @@ const BookList: React.FC = () => {
               onClick={handleDeleteConfirm}
               isLoading={state.loading}
             >
-              Delete
+              Supprimer
             </Button>
           </div>
         </div>

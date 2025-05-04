@@ -1,5 +1,5 @@
 import React from 'react';
-import { Book, Edit, Trash2, Calendar, Hash, BookOpen } from 'lucide-react';
+import { Edit, Trash2, Calendar, Hash } from 'lucide-react';
 import { Book as BookType } from '../../types';
 import Button from '../ui/Button';
 
@@ -27,7 +27,7 @@ const BookDetails: React.FC<BookDetailsProps> = ({ book, onEdit, onDelete }) => 
   
   return (
     <div className="flex flex-col md:flex-row gap-6">
-      {/* Book Cover */}
+      {/* Couverture du livre */}
       <div className="w-full md:w-1/3">
         <div className="relative pb-[140%] rounded-lg overflow-hidden bg-gray-200 shadow-md">
           <img
@@ -45,7 +45,7 @@ const BookDetails: React.FC<BookDetailsProps> = ({ book, onEdit, onDelete }) => 
             leftIcon={<Edit size={18} />}
             onClick={onEdit}
           >
-            Edit
+            Modifier
           </Button>
           
           <Button
@@ -54,17 +54,17 @@ const BookDetails: React.FC<BookDetailsProps> = ({ book, onEdit, onDelete }) => 
             leftIcon={<Trash2 size={18} />}
             onClick={onDelete}
           >
-            Delete
+            Supprimer
           </Button>
         </div>
       </div>
       
-      {/* Book Details */}
+      {/* Détails du livre */}
       <div className="w-full md:w-2/3">
         <h1 className="text-2xl font-bold text-gray-900 mb-2">{book.title}</h1>
         
         <div className="text-lg text-gray-600 mb-4">
-          by <span className="font-medium">{book.author}</span>
+          par <span className="font-medium">{book.author}</span>
         </div>
         
         <div className="flex flex-wrap gap-2 mb-6">
@@ -82,7 +82,7 @@ const BookDetails: React.FC<BookDetailsProps> = ({ book, onEdit, onDelete }) => 
           {book.isbn && (
             <span className="inline-flex items-center gap-1 bg-teal-100 text-teal-800 text-sm px-3 py-1 rounded-full">
               <Hash size={14} />
-              ISBN: {book.isbn}
+              ISBN : {book.isbn}
             </span>
           )}
         </div>
@@ -95,11 +95,11 @@ const BookDetails: React.FC<BookDetailsProps> = ({ book, onEdit, onDelete }) => 
         <div className="border-t border-gray-200 pt-4 text-sm text-gray-500">
           <div className="flex flex-col sm:flex-row sm:justify-between">
             <div>
-              <span>Added: {formatDate(book.createdAt)}</span>
+              <span>Ajouté : {formatDate(book.createdAt)}</span>
             </div>
             {book.updatedAt !== book.createdAt && (
               <div>
-                <span>Last updated: {formatDate(book.updatedAt)}</span>
+                <span>Dernière mise à jour : {formatDate(book.updatedAt)}</span>
               </div>
             )}
           </div>

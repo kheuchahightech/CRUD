@@ -4,7 +4,7 @@ import { getStoredBooks, setStoredBooks } from '../utils/localStorage';
 import { useAuth } from './AuthContext';
 import { v4 as uuidv4 } from 'uuid';
 
-// Initial state
+
 const initialState: BookState = {
   books: [],
   filteredBooks: [],
@@ -15,7 +15,7 @@ const initialState: BookState = {
   categoryFilter: ''
 };
 
-// Action types
+
 type BookAction = 
   | { type: 'FETCH_BOOKS_REQUEST' }
   | { type: 'FETCH_BOOKS_SUCCESS'; payload: Book[] }
@@ -34,7 +34,7 @@ type BookAction =
   | { type: 'SET_CATEGORY_FILTER'; payload: string }
   | { type: 'APPLY_FILTERS' };
 
-// Book reducer
+
 const bookReducer = (state: BookState, action: BookAction): BookState => {
   switch (action.type) {
     case 'FETCH_BOOKS_REQUEST':
@@ -130,7 +130,7 @@ const bookReducer = (state: BookState, action: BookAction): BookState => {
   }
 };
 
-// Create context
+
 type BookContextType = {
   state: BookState;
   fetchBooks: () => Promise<void>;
@@ -145,34 +145,33 @@ type BookContextType = {
 
 const BookContext = createContext<BookContextType | undefined>(undefined);
 
-// Book provider component
 export const BookProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [state, dispatch] = useReducer(bookReducer, initialState);
   const { state: authState } = useAuth();
 
-  // Load books on auth state change
+  
   useEffect(() => {
     if (authState.isAuthenticated) {
       fetchBooks();
     } else {
-      // Clear books when logged out
+      
       dispatch({ type: 'FETCH_BOOKS_SUCCESS', payload: [] });
     }
   }, [authState.isAuthenticated]);
 
-  // Apply filters when search or category changes
+  
   useEffect(() => {
     dispatch({ type: 'APPLY_FILTERS' });
   }, [state.searchTerm, state.categoryFilter]);
 
-  // Fetch books for the current user
+  
   const fetchBooks = async () => {
     if (!authState.user) return;
     
     dispatch({ type: 'FETCH_BOOKS_REQUEST' });
     
     try {
-      // Simulate API request delay
+      
       await new Promise(resolve => setTimeout(resolve, 300));
       
       const allBooks = getStoredBooks();
@@ -184,14 +183,14 @@ export const BookProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
   };
 
-  // Add a new book
+  
   const addBook = async (bookData: Omit<Book, 'id' | 'userId' | 'createdAt' | 'updatedAt'>) => {
     if (!authState.user) return;
     
     dispatch({ type: 'ADD_BOOK_REQUEST' });
     
     try {
-      // Simulate API request delay
+      
       await new Promise(resolve => setTimeout(resolve, 300));
       
       const timestamp = Date.now();
@@ -213,14 +212,14 @@ export const BookProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
   };
 
-  // Update an existing book
+  
   const updateBook = async (bookData: Partial<Book> & { id: string }) => {
     if (!authState.user) return;
     
     dispatch({ type: 'UPDATE_BOOK_REQUEST' });
     
     try {
-      // Simulate API request delay
+      
       await new Promise(resolve => setTimeout(resolve, 300));
       
       const allBooks = getStoredBooks();
@@ -230,7 +229,7 @@ export const BookProvider: React.FC<{ children: React.ReactNode }> = ({ children
         throw new Error('Book not found');
       }
       
-      // Check if the book belongs to the current user
+      
       if (allBooks[bookIndex].userId !== authState.user.id) {
         throw new Error('Unauthorized to update this book');
       }
@@ -253,14 +252,14 @@ export const BookProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
   };
 
-  // Delete a book
+  
   const deleteBook = async (id: string) => {
     if (!authState.user) return;
     
     dispatch({ type: 'DELETE_BOOK_REQUEST' });
     
     try {
-      // Simulate API request delay
+      
       await new Promise(resolve => setTimeout(resolve, 300));
       
       const allBooks = getStoredBooks();
@@ -270,7 +269,7 @@ export const BookProvider: React.FC<{ children: React.ReactNode }> = ({ children
         throw new Error('Book not found');
       }
       
-      // Check if the book belongs to the current user
+      
       if (bookToDelete.userId !== authState.user.id) {
         throw new Error('Unauthorized to delete this book');
       }
@@ -287,22 +286,22 @@ export const BookProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
   };
 
-  // Set current book for viewing/editing
+  
   const setCurrentBook = (book: Book | null) => {
     dispatch({ type: 'SET_CURRENT_BOOK', payload: book });
   };
 
-  // Search books
+  
   const searchBooks = (term: string) => {
     dispatch({ type: 'SET_SEARCH_TERM', payload: term });
   };
 
-  // Filter by category
+  
   const filterByCategory = (category: string) => {
     dispatch({ type: 'SET_CATEGORY_FILTER', payload: category });
   };
 
-  // Get unique categories from the books
+  
   const getCategories = (): string[] => {
     const categories = new Set(state.books.map(book => book.category));
     return Array.from(categories);
@@ -323,7 +322,7 @@ export const BookProvider: React.FC<{ children: React.ReactNode }> = ({ children
   return <BookContext.Provider value={value}>{children}</BookContext.Provider>;
 };
 
-// Custom hook to use book context
+
 export const useBooks = () => {
   const context = useContext(BookContext);
   

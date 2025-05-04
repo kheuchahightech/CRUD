@@ -13,58 +13,57 @@ const LoginForm: React.FC<LoginFormProps> = ({ onSuccess }) => {
   const { login, state } = useAuth();
   const [formData, setFormData] = useState({
     email: '',
-    password: ''
+    motDePasse: ''
   });
   const [errors, setErrors] = useState({
     email: '',
-    password: ''
+    motDePasse: ''
   });
-  
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
-    
-    // Clear error when typing
+
+    // Effacer l'erreur lors de la saisie
     if (errors[name as keyof typeof errors]) {
       setErrors({ ...errors, [name]: '' });
     }
   };
-  
+
   const validateForm = () => {
     let valid = true;
     const newErrors = { ...errors };
-    
+
     if (!formData.email) {
-      newErrors.email = 'Email is required';
+      newErrors.email = 'L\'email est requis';
       valid = false;
     } else if (!validateEmail(formData.email)) {
-      newErrors.email = 'Invalid email format';
+      newErrors.email = 'Format d\'email invalide';
       valid = false;
     }
-    
-    if (!formData.password) {
-      newErrors.password = 'Password is required';
+
+    if (!formData.motDePasse) {
+      newErrors.motDePasse = 'Le mot de passe est requis';
       valid = false;
     }
-    
+
     setErrors(newErrors);
     return valid;
   };
-  
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     if (!validateForm()) return;
-    
+
     try {
-      await login(formData.email, formData.password);
+      await login(formData.email, formData.motDePasse);
       if (onSuccess) onSuccess();
     } catch (error) {
-      // Handle any unexpected errors
-      console.error('Login error:', error);
+      console.error('Erreur de connexion :', error);
     }
   };
-  
+
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
       <Input
@@ -73,28 +72,28 @@ const LoginForm: React.FC<LoginFormProps> = ({ onSuccess }) => {
         name="email"
         value={formData.email}
         onChange={handleChange}
-        placeholder="Enter your email"
+        placeholder="Entrez votre email"
         error={errors.email}
         fullWidth
         leftIcon={<Mail size={18} />}
       />
-      
+
       <Input
-        label="Password"
+        label="Mot de passe"
         type="password"
-        name="password"
-        value={formData.password}
+        name="motDePasse"
+        value={formData.motDePasse}
         onChange={handleChange}
-        placeholder="Enter your password"
-        error={errors.password}
+        placeholder="Entrez votre mot de passe"
+        error={errors.motDePasse}
         fullWidth
         leftIcon={<Lock size={18} />}
       />
-      
+
       {state.error && (
         <div className="text-red-600 text-sm mt-2">{state.error}</div>
       )}
-      
+
       <div className="pt-2">
         <Button
           type="submit"
@@ -102,7 +101,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ onSuccess }) => {
           fullWidth
           isLoading={state.loading}
         >
-          Log In
+          Se connecter
         </Button>
       </div>
     </form>

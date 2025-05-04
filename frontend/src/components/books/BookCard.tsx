@@ -11,17 +11,17 @@ interface BookCardProps {
 }
 
 const BookCard: React.FC<BookCardProps> = ({ book, onView, onEdit, onDelete }) => {
-  // Get fallback cover if provided cover is empty or invalid
+  
   const getCover = () => {
     if (book.cover && book.cover.startsWith('http')) {
       return book.cover;
     }
-    // Fallback cover based on the first letter of book title
+    
     const seed = book.title.charAt(0).toLowerCase();
     return `https://picsum.photos/seed/${seed}/300/400`;
   };
   
-  // Format date
+  
   const formatDate = (timestamp: number) => {
     return new Date(timestamp).toLocaleDateString();
   };
@@ -43,7 +43,7 @@ const BookCard: React.FC<BookCardProps> = ({ book, onView, onEdit, onDelete }) =
         </h3>
         
         <p className="text-gray-600 text-sm mt-1">
-          by {book.author}
+          par {book.author}
         </p>
         
         <div className="mt-2 mb-3">
@@ -51,7 +51,7 @@ const BookCard: React.FC<BookCardProps> = ({ book, onView, onEdit, onDelete }) =
             {book.category}
           </span>
           <span className="inline-block ml-2 text-xs text-gray-500">
-            {book.publishedYear}
+            Publié en {book.publishedYear}
           </span>
         </div>
         
@@ -60,7 +60,7 @@ const BookCard: React.FC<BookCardProps> = ({ book, onView, onEdit, onDelete }) =
         </p>
         
         <div className="text-xs text-gray-500 mt-2">
-          Added: {formatDate(book.createdAt)}
+         Ajouté le : {formatDate(book.createdAt)}
         </div>
         
         <div className="mt-4 flex space-x-2">
@@ -71,7 +71,7 @@ const BookCard: React.FC<BookCardProps> = ({ book, onView, onEdit, onDelete }) =
             leftIcon={<Book size={16} />}
             className="flex-1"
           >
-            View
+            Voir
           </Button>
           
           <Button 
@@ -81,7 +81,7 @@ const BookCard: React.FC<BookCardProps> = ({ book, onView, onEdit, onDelete }) =
             leftIcon={<Edit size={16} />}
             className="flex-1"
           >
-            Edit
+            Modifier
           </Button>
           
           <Button 
@@ -91,7 +91,7 @@ const BookCard: React.FC<BookCardProps> = ({ book, onView, onEdit, onDelete }) =
             leftIcon={<Trash2 size={16} />}
             className="flex-none"
           >
-            <span className="sr-only">Delete</span>
+            <span className="sr-only">Supprimer</span>
           </Button>
         </div>
       </div>

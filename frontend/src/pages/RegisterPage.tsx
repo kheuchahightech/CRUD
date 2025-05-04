@@ -8,7 +8,7 @@ const RegisterPage: React.FC = () => {
   const { state } = useAuth();
   const navigate = useNavigate();
   
-  // Redirect if already logged in
+
   useEffect(() => {
     if (state.isAuthenticated) {
       navigate('/books');
@@ -21,29 +21,29 @@ const RegisterPage: React.FC = () => {
         <div className="bg-indigo-600 px-6 py-4 text-white flex items-center justify-between">
           <div className="flex items-center gap-2">
             <UserPlus size={20} />
-            <h1 className="text-xl font-semibold">Create an Account</h1>
+            <h1 className="text-xl font-semibold">Créer un compte</h1>
           </div>
           <Link 
             to="/login"
             className="text-indigo-100 hover:text-white text-sm flex items-center gap-1 transition-colors"
           >
             <LogIn size={16} />
-            <span>Log in</span>
+            <span>Se connecter</span>
           </Link>
         </div>
-        
+    
         <div className="p-6">
           <p className="text-gray-600 mb-6">
-            Sign up to start managing your personal book collection.
+            Inscrivez-vous pour commencer à gérer votre collection personnelle de livres.
           </p>
           
           <RegisterForm onSuccess={() => navigate('/books')} />
           
           <div className="mt-8 pt-6 border-t border-gray-200 text-center">
             <p className="text-gray-600 text-sm">
-              Already have an account?{' '}
+              Vous avez déjà un compte ?{' '}
               <Link to="/login" className="text-indigo-600 hover:text-indigo-800 font-medium">
-                Log in now
+                Connectez-vous maintenant
               </Link>
             </p>
           </div>

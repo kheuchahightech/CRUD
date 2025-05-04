@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Book, Save, X } from 'lucide-react';
+import {  Save, X } from 'lucide-react';
 import Input from '../ui/Input';
 import Button from '../ui/Button';
 import { Book as BookType } from '../../types';
@@ -12,20 +12,19 @@ interface BookFormProps {
   loading: boolean;
 }
 
-// Book categories
 const CATEGORIES = [
   'Fiction',
   'Non-Fiction',
-  'Mystery',
-  'Science Fiction',
-  'Fantasy',
+  'Mystère',
+  'Science-Fiction',
+  'Fantaisie',
   'Romance',
   'Thriller',
-  'Biography',
-  'History',
-  'Self-Help',
+  'Biographie',
+  'Histoire',
+  'Développement personnel',
   'Business',
-  'Other'
+  'Autre'
 ];
 
 const BookForm: React.FC<BookFormProps> = ({ book, onSubmit, onCancel, loading }) => {
@@ -50,7 +49,6 @@ const BookForm: React.FC<BookFormProps> = ({ book, onSubmit, onCancel, loading }
     publishedYear: ''
   });
   
-  // Set initial form data if editing a book
   useEffect(() => {
     if (book) {
       setFormData({
@@ -70,7 +68,6 @@ const BookForm: React.FC<BookFormProps> = ({ book, onSubmit, onCancel, loading }
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
     
-    // Clear error when typing
     if (errors[name as keyof typeof errors]) {
       setErrors({ ...errors, [name]: '' });
     }
@@ -81,32 +78,32 @@ const BookForm: React.FC<BookFormProps> = ({ book, onSubmit, onCancel, loading }
     const newErrors = { ...errors };
     
     if (!validateRequired(formData.title)) {
-      newErrors.title = 'Title is required';
+      newErrors.title = 'Le titre est requis';
       valid = false;
     }
     
     if (!validateRequired(formData.author)) {
-      newErrors.author = 'Author is required';
+      newErrors.author = "L'auteur est requis";
       valid = false;
     }
     
     if (!validateRequired(formData.description)) {
-      newErrors.description = 'Description is required';
+      newErrors.description = 'La description est requise';
       valid = false;
     }
     
     if (!validateRequired(formData.category)) {
-      newErrors.category = 'Category is required';
+      newErrors.category = 'La catégorie est requise';
       valid = false;
     }
     
     if (formData.isbn && !validateISBN(formData.isbn)) {
-      newErrors.isbn = 'ISBN must be a valid 10 or 13 digit number';
+      newErrors.isbn = "L'ISBN doit être un numéro valide de 10 ou 13 chiffres";
       valid = false;
     }
     
     if (!validateYear(formData.publishedYear)) {
-      newErrors.publishedYear = 'Published year cannot be in the future';
+      newErrors.publishedYear = "L'année de publication ne peut pas être dans le futur";
       valid = false;
     }
     
@@ -121,7 +118,6 @@ const BookForm: React.FC<BookFormProps> = ({ book, onSubmit, onCancel, loading }
     
     try {
       if (book) {
-        // Editing existing book
         await onSubmit({
           id: formData.id,
           title: formData.title,
@@ -133,7 +129,6 @@ const BookForm: React.FC<BookFormProps> = ({ book, onSubmit, onCancel, loading }
           publishedYear: formData.publishedYear
         });
       } else {
-        // Adding new book
         await onSubmit({
           title: formData.title,
           author: formData.author,
@@ -145,7 +140,7 @@ const BookForm: React.FC<BookFormProps> = ({ book, onSubmit, onCancel, loading }
         });
       }
     } catch (error) {
-      console.error('Error submitting book:', error);
+      console.error('Erreur lors de la soumission du livre :', error);
     }
   };
   
@@ -154,31 +149,31 @@ const BookForm: React.FC<BookFormProps> = ({ book, onSubmit, onCancel, loading }
       <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
         <div className="md:col-span-2">
           <Input
-            label="Title"
+            label="Titre"
             type="text"
             name="title"
             value={formData.title}
             onChange={handleChange}
-            placeholder="Book title"
+            placeholder="Titre du livre"
             error={errors.title}
             fullWidth
           />
         </div>
         
         <Input
-          label="Author"
+          label="Auteur"
           type="text"
           name="author"
           value={formData.author}
           onChange={handleChange}
-          placeholder="Author name"
+          placeholder="Nom de l'auteur"
           error={errors.author}
           fullWidth
         />
         
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-1">
-            Category
+            Catégorie
           </label>
           <select
             name="category"
@@ -188,7 +183,7 @@ const BookForm: React.FC<BookFormProps> = ({ book, onSubmit, onCancel, loading }
               errors.category ? 'border-red-500' : 'border-gray-300'
             } focus:outline-none focus:ring-indigo-500 focus:border-indigo-500`}
           >
-            <option value="">Select a category</option>
+            <option value="">Sélectionner une catégorie</option>
             {CATEGORIES.map(category => (
               <option key={category} value={category}>{category}</option>
             ))}
@@ -197,14 +192,14 @@ const BookForm: React.FC<BookFormProps> = ({ book, onSubmit, onCancel, loading }
         </div>
         
         <Input
-          label="Cover Image URL"
+          label="URL de l'image de couverture"
           type="url"
           name="cover"
           value={formData.cover}
           onChange={handleChange}
-          placeholder="https://example.com/cover.jpg"
+          placeholder="https://exemple.com/cover.jpg"
           error={errors.cover}
-          helperText="Leave empty for a generated placeholder"
+          helperText="Laissez vide pour une image par défaut"
           fullWidth
         />
         
@@ -214,18 +209,18 @@ const BookForm: React.FC<BookFormProps> = ({ book, onSubmit, onCancel, loading }
           name="isbn"
           value={formData.isbn}
           onChange={handleChange}
-          placeholder="ISBN (10 or 13 digits)"
+          placeholder="ISBN (10 ou 13 chiffres)"
           error={errors.isbn}
           fullWidth
         />
         
         <Input
-          label="Published Year"
+          label="Année de publication"
           type="number"
           name="publishedYear"
           value={formData.publishedYear.toString()}
           onChange={handleChange}
-          placeholder="Year of publication"
+          placeholder="Année de publication"
           error={errors.publishedYear}
           fullWidth
         />
@@ -239,7 +234,7 @@ const BookForm: React.FC<BookFormProps> = ({ book, onSubmit, onCancel, loading }
             value={formData.description}
             onChange={handleChange}
             rows={4}
-            placeholder="Book description"
+            placeholder="Description du livre"
             className={`mt-1 block w-full rounded-md shadow-sm py-2 px-3 border ${
               errors.description ? 'border-red-500' : 'border-gray-300'
             } focus:outline-none focus:ring-indigo-500 focus:border-indigo-500`}
@@ -255,7 +250,7 @@ const BookForm: React.FC<BookFormProps> = ({ book, onSubmit, onCancel, loading }
           onClick={onCancel}
           leftIcon={<X size={18} />}
         >
-          Cancel
+          Annuler
         </Button>
         
         <Button
@@ -264,7 +259,7 @@ const BookForm: React.FC<BookFormProps> = ({ book, onSubmit, onCancel, loading }
           isLoading={loading}
           leftIcon={<Save size={18} />}
         >
-          {book ? 'Update Book' : 'Add Book'}
+          {book ? 'Mettre à jour le livre' : 'Ajouter le livre'}
         </Button>
       </div>
     </form>

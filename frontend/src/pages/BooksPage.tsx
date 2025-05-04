@@ -20,10 +20,10 @@ const BooksPage: React.FC = () => {
       <div className="mb-8">
         <div className="flex items-center gap-2 mb-2">
           <BookOpen size={24} className="text-indigo-600" />
-          <h1 className="text-2xl font-bold text-gray-900">My Book Collection</h1>
+          <h1 className="text-2xl font-bold text-gray-900">Ma collection de livres</h1>
         </div>
         <p className="text-gray-600">
-          Manage and organize all your books in one place.
+          Gérez et organisez tous vos livres en un seul endroit.
         </p>
       </div>
       

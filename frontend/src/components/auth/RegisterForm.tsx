@@ -28,7 +28,7 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ onSuccess }) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
     
-    // Clear error when typing
+    
     if (errors[name as keyof typeof errors]) {
       setErrors({ ...errors, [name]: '' });
     }
@@ -83,7 +83,7 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ onSuccess }) => {
       await register(formData.username, formData.email, formData.password);
       if (onSuccess) onSuccess();
     } catch (error) {
-      // Handle any unexpected errors
+      
       console.error('Registration error:', error);
     }
   };
@@ -150,7 +150,7 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ onSuccess }) => {
           fullWidth
           isLoading={state.loading}
         >
-          Create Account
+          Créer un compte
         </Button>
       </div>
     </form>

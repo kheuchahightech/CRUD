@@ -8,7 +8,7 @@ const LoginPage: React.FC = () => {
   const { state } = useAuth();
   const navigate = useNavigate();
   
-  // Redirect if already logged in
+  // Rediriger si déjà connecté
   useEffect(() => {
     if (state.isAuthenticated) {
       navigate('/books');
@@ -21,29 +21,29 @@ const LoginPage: React.FC = () => {
         <div className="bg-indigo-600 px-6 py-4 text-white flex items-center justify-between">
           <div className="flex items-center gap-2">
             <LogIn size={20} />
-            <h1 className="text-xl font-semibold">Log In</h1>
+            <h1 className="text-xl font-semibold">Se connecter</h1>
           </div>
           <Link 
             to="/register"
             className="text-indigo-100 hover:text-white text-sm flex items-center gap-1 transition-colors"
           >
             <UserPlus size={16} />
-            <span>Register</span>
+            <span>S'inscrire</span>
           </Link>
         </div>
         
         <div className="p-6">
           <p className="text-gray-600 mb-6">
-            Welcome back! Log in to access your book collection.
+            Bienvenue ! Connectez-vous pour accéder à votre collection de livres.
           </p>
           
           <LoginForm onSuccess={() => navigate('/books')} />
           
           <div className="mt-8 pt-6 border-t border-gray-200 text-center">
             <p className="text-gray-600 text-sm">
-              Don't have an account?{' '}
+              Vous n'avez pas de compte ?{' '}
               <Link to="/register" className="text-indigo-600 hover:text-indigo-800 font-medium">
-                Sign up now
+                Inscrivez-vous maintenant
               </Link>
             </p>
           </div>
